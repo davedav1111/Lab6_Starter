@@ -3,6 +3,8 @@ class RecipeCard extends HTMLElement {
     // Part 1 Expose - TODO
 
     // You'll want to attach the shadow DOM here
+    super();
+    this.attachShadow({mode: 'open'});
   }
 
   set data(data) {
@@ -100,6 +102,70 @@ class RecipeCard extends HTMLElement {
     // created in the constructor()
 
     // Part 1 Expose - TODO
+    const img1 = document.createElement('img');
+    const a1 = document.createElement('a');
+    const p1 = document.createElement('p');
+    const p2 = document.createElement('p');
+    const p3 = document.createElement('p');
+
+    
+
+    const time = document.createElement('time');
+
+
+    //img url
+    img1.setAttribute('src',searchForKey(data, 'thumbnailUrl'));
+    img1.setAttribute('alt',searchForKey(data, 'headline'));
+    card.appendChild(img1);
+
+    //title
+    p1.classList.add("title");
+    a1.setAttribute('href', getUrl(data));
+    a1.innerHTML += searchForKey(data, 'headline');
+    p1.appendChild(a1); 
+    card.appendChild(p1);
+    
+    //organ
+    p2.classList.add("organization");
+    p2.innerHTML += getOrganization(data);
+    card.appendChild(p2);
+
+    //rating
+    const div = document.createElement('div');
+    div.classList.add("rating");
+    const span1 = document.createElement('span');
+    let foundR = searchForKey(data, 'aggregateRating');
+    if(foundR){
+      const span2 = document.createElement('span');
+      const img2 = document.createElement('img');
+      span1.innerHTML += searchForKey(foundR, 'ratingValue');
+
+      let roundN=Math.round(Number(span1.innerText));
+    
+      img2.setAttribute('src',"/assets/images/icons/"+ roundN+"-star.svg");
+      img2.setAttribute('alt',roundN + " stars");
+      span2.innerHTML += searchForKey(foundR, 'ratingCount');
+      div.appendChild(span1);
+      div.appendChild(img2);
+      div.appendChild(span2);
+    }
+    else{
+      span1.innerHTML += "No Reviews";
+      div.appendChild(span1);
+    }
+    card.appendChild(div);
+
+    //time
+    time.innerHTML += convertTime(searchForKey(data, "totalTime"));
+    card.appendChild(time);
+
+    //ing
+    p3.classList.add("ingredients");
+    p3.innerHTML += createIngredientList(searchForKey(data, "recipeIngredient"));
+    card.appendChild(p3);
+    
+    this.shadowRoot.appendChild(styleElem);
+    this.shadowRoot.appendChild(card);
   }
 }
 
