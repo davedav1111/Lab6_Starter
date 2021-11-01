@@ -142,7 +142,7 @@ class RecipeCard extends HTMLElement {
 
       let roundN=Math.round(Number(span1.innerText));
     
-      img2.setAttribute('src',"/assets/images/icons/"+ roundN+"-star.svg");
+      img2.setAttribute('src',"assets/images/icons/"+ roundN+"-star.svg");
       img2.setAttribute('alt',roundN + " stars");
       if (searchForKey(foundR, 'ratingCount')) {
         span2.innerHTML += searchForKey(foundR, 'ratingCount');
