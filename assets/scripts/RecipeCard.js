@@ -144,7 +144,13 @@ class RecipeCard extends HTMLElement {
     
       img2.setAttribute('src',"/assets/images/icons/"+ roundN+"-star.svg");
       img2.setAttribute('alt',roundN + " stars");
-      span2.innerHTML += searchForKey(foundR, 'ratingCount');
+      if (searchForKey(foundR, 'ratingCount')) {
+        span2.innerHTML += searchForKey(foundR, 'ratingCount');
+      }
+      else {
+        span2.innerHTML += searchForKey(foundR, 'reviewCount');
+      }
+      
       div.appendChild(span1);
       div.appendChild(img2);
       div.appendChild(span2);
@@ -156,12 +162,20 @@ class RecipeCard extends HTMLElement {
     card.appendChild(div);
 
     //time
-    time.innerHTML += convertTime(searchForKey(data, "totalTime"));
+    if (searchForKey(data, 'totalTime')) {
+      time.innerHTML += convertTime(searchForKey(data, "totalTime"));
+    }
     card.appendChild(time);
 
     //ing
     p3.classList.add("ingredients");
-    p3.innerHTML += createIngredientList(searchForKey(data, "recipeIngredient"));
+    if (searchForKey(data, 'recipeIngredient')) {
+      p3.innerHTML += createIngredientList(searchForKey(data, "recipeIngredient"));
+    }
+    else {
+      p3.innerHTML += '.......';
+    }
+    
     card.appendChild(p3);
     
     this.shadowRoot.appendChild(styleElem);
